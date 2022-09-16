@@ -1,0 +1,6 @@
+Função DAX para contar apenas o "objeto" desejado.
+
+Ex. Assinaturas Inativas
+
+Total Assinaturas Inativas = CALCULATE(Count(Clientes[Assinatura ativa]),Clientes[Assinatura ativa]="não")
+"Medida Criada" = função(contagem("coluna onde estão as informações","Coluna"="campo_filtrado")

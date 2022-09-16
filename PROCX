@@ -1,0 +1,5 @@
+Trazendo dados de uma tabela para outra. Ex: Valores de Produtos
+
+Valor Produto = LOOKUPVALUE(Produtos[Valor],Produtos[ID Produto],VENDAS[ID Produto])
+
+"nome da nova coluna" = função ("valor buscado", "referencia de busca origem", "referencia de busca destino")

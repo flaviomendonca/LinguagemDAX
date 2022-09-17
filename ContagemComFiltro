@@ -4,3 +4,14 @@ Ex. Assinaturas Inativas
 
 Total Assinaturas Inativas = CALCULATE(Count(Clientes[Assinatura ativa]),Clientes[Assinatura ativa]="não")
 "Medida Criada" = função(contagem("coluna onde estão as informações","Coluna"="campo_filtrado")
+
+
+CALCULAR VALOR TOTAL DE VENDAS
+Total Geral de Vendas = #Nome da Medida#
+CALCULATE(
+  SUMX(
+      Tb_ItensNotas, #nome da tabela onde estão as informações#
+      [Qta] * [Valor]
+      ),
+      all(Tb_ItensNotas) #filtro all, inutiliza filtros de segmentação - Usado para indicador com valor total independente de filtros#
+)

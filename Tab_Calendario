@@ -2,10 +2,65 @@
 
 Calendario = 
 ADDCOLUMNS(
-  CALENDARAUTO(),  #ANALISA TODAS AS COLUNAS DE DATAS DO MODELO
-  "ANO", YEAR([DATE]),
-  "MÊS", MONTH([DATE]),
-  "Nome do Mes", FORMAT([DATE], "mmmm", "PT-BR"), 
-  "Dia da Semana", FORMAR([DATE], "dddd"),
-  "Trimestre", "T" & QUARTER([DATE])
+    CALENDARAUTO(), 
+    "Ano", YEAR([Date]),
+    "Mes", MONTH([Date]),
+    "Mes Nome", FORMAT([Date], "MMMM"),
+    "Mes Abreviado", FORMAT([Date], "MMM"),
+    "Trimestre", QUARTER([Date]),
+    "Ano Trimestre", FORMAT([Date], "YYYY") & "Q" & QUARTER([Date]),
+    "Ano Mês", FORMAT([Date], "YYYY/MM"),
+    "Semana do Ano", WEEKNUM([Date], 2),  // 2 = semana começa na segunda-feira
+    "Dia da Semana", WEEKDAY([Date], 2),  // 2 = segunda-feira como primeiro dia
+    "Dia da Semana Nome", FORMAT([Date], "dddd"),
+    "Dia da Semana Abreviado", FORMAT([Date], "ddd"),
+    "Is Final de Semana", IF(WEEKDAY([Date], 2) >= 6, TRUE, FALSE),
+    "Dia do Ano", FORMAT([Date], "DDD"),
+    "Bissexto", IF(MOD(YEAR([Date]), 4) = 0 && (MOD(YEAR([Date]), 100) <> 0 || MOD(YEAR([Date]), 400) = 0), TRUE, FALSE),
+    "Início do Mês", EOMONTH([Date], -1) + 1,
+    "Fim do Mês", EOMONTH([Date], 0),
+    "Início do Trimestre", 
+        SWITCH(QUARTER([Date]), 
+            1, DATE(YEAR([Date]), 1, 1), 
+            2, DATE(YEAR([Date]), 4, 1), 
+            3, DATE(YEAR([Date]), 7, 1), 
+            4, DATE(YEAR([Date]), 10, 1)
+        ),
+    "Fim do Trimestre", 
+        SWITCH(QUARTER([Date]), 
+            1, DATE(YEAR([Date]), 3, 31), 
+            2, DATE(YEAR([Date]), 6, 30), 
+            3, DATE(YEAR([Date]), 9, 30), 
+            4, DATE(YEAR([Date]), 12, 31)
+        ),
+    "Início do Ano", DATE(YEAR([Date]), 1, 1),
+    "Fim do Ano", DATE(YEAR([Date]), 12, 31),
+    "Is Hoje", IF([Date] = TODAY(), TRUE, FALSE),
+    "Is Fim de Semana", IF(WEEKDAY([Date], 2) >= 6, TRUE, FALSE),
+    "Trimestre Ano Nome", FORMAT([Date], "YYYY") & " - T" & QUARTER([Date])
 )
+
+
+#
+Ano: Ano da data.
+Mes: Mês da data como número (1 a 12).
+Mes Nome: Nome completo do mês (ex: Janeiro).
+Mes Abreviado: Nome abreviado do mês (ex: Jan).
+Trimestre: Trimestre do ano (1 a 4).
+Ano Trimestre: Combina ano e trimestre (ex: 2024Q1).
+Ano Mês: Combinação do ano e mês no formato YYYY/MM.
+Semana do Ano: Número da semana no ano.
+Dia da Semana: Número do dia da semana (1 = segunda-feira, 7 = domingo).
+Dia da Semana Nome: Nome completo do dia da semana (ex: Segunda-feira).
+Dia da Semana Abreviado: Nome abreviado do dia da semana (ex: Seg).
+Is Final de Semana: Indicador booleano para verificar se a data cai em um final de semana (sábado ou domingo).
+Dia do Ano: O número do dia no ano (1 a 365 ou 366).
+Bissexto: Indicador se o ano é bissexto (TRUE/FALSE).
+Início do Mês: Primeiro dia do mês.
+Fim do Mês: Último dia do mês.
+Início do Trimestre: Primeiro dia do trimestre.
+Fim do Trimestre: Último dia do trimestre.
+Início do Ano: Primeiro dia do ano.
+Fim do Ano: Último dia do ano.
+Is Hoje: Indicador booleano se a data é o dia atual.
+Trimestre Ano Nome: Combinação do ano e trimestre no formato "YYYY - Tn"
